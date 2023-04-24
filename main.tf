@@ -77,6 +77,7 @@ resource "aws_route_table_association" "public-route-1" {
   route_table_id = data.aws_route_table.publicrt.id
 }
 
+
 module "eks_nodegroup_role" {
 source = "./eks-role"
 }

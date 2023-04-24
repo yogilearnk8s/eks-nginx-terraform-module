@@ -17,7 +17,14 @@ pipeline {
 		sh 'terraform plan'
       }
     }
-	
+
+    stage('eks-iam-role') {
+      steps {
+        sh 'terraform apply  -target=module.eks_nodegroup_role  -input=false -auto-approve'
+  
+      }
+
+    }	
     stage('eks-deploy') {
       steps {
         sh 'terraform apply -input=false -auto-approve'
