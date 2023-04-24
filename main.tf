@@ -97,24 +97,6 @@ module "eks_cluster_creation" {
   depends_on = [module.eks_nodegroup_role]
 }
 
-module "disabled_fargate_profile" {
-  source = "../../modules/fargate-profile"
-
-  create = false
-}
-
-module "disabled_eks_managed_node_group" {
-  source = "../../modules/eks-managed-node-group"
-
-  create = false
-}
-
-module "disabled_self_managed_node_group" {
-  source = "../../modules/self-managed-node-group"
-
-  create = false
-}
-
 //module "nodegroup_creation" {
 //source = "./node-group-creation"
 //depends_on = [module.eks_cluster_creation]
