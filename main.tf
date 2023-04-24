@@ -93,7 +93,7 @@ module "eks_cluster_creation" {
   cluster_endpoint_private_access = false
   subnet_ids        =  flatten([aws_subnet.public-subnets[*].id])
   vpc_id    = data.aws_vpc.yogi-vpc.id
-  create_kms_key = false
+  //create_kms_key = false
   depends_on = [module.eks_nodegroup_role]
 }
 
