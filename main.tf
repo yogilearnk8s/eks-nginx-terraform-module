@@ -86,11 +86,11 @@ module "eks_cluster_creation" {
   source = "terraform-aws-modules/eks/aws"
   version = "19.13.1"
   cluster_name                   = local.name
-  iam_role_arn = data.aws_iam_role.example.arn
+  //iam_role_arn = data.aws_iam_role.example.arn
+  iam_role_arn = module.eks_nodegroup_role.name
   cluster_endpoint_public_access = true
   cluster_endpoint_private_access = false
   subnet_ids        =  flatten([aws_subnet.public-subnets[*].id])
-  
   depends_on = [module.eks_nodegroup_role]
 }
 
