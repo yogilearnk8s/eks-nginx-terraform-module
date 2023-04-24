@@ -92,7 +92,27 @@ module "eks_cluster_creation" {
   cluster_endpoint_public_access = true
   cluster_endpoint_private_access = false
   subnet_ids        =  flatten([aws_subnet.public-subnets[*].id])
+  vpc_id    = data.aws_vpc.yogi-vpc.id
+  create_kms_key = false
   depends_on = [module.eks_nodegroup_role]
+}
+
+module "disabled_fargate_profile" {
+  source = "../../modules/fargate-profile"
+
+  create = false
+}
+
+module "disabled_eks_managed_node_group" {
+  source = "../../modules/eks-managed-node-group"
+
+  create = false
+}
+
+module "disabled_self_managed_node_group" {
+  source = "../../modules/self-managed-node-group"
+
+  create = false
 }
 
 //module "nodegroup_creation" {
