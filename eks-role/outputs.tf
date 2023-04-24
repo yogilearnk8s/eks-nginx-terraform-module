@@ -1,6 +1,7 @@
 output "eks_role" {
   description = "Role arn for eks cluster"
-  value       = module.aws_iam_role.eks-iam-role.arn
+  value       = "${aws_iam_role.eks-iam-role.arn}"  
+  
 }
 
 
