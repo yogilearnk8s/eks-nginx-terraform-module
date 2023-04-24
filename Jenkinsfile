@@ -18,7 +18,7 @@ pipeline {
       }
     }
 	
-    stage('k8s-infra-deploy') {
+    stage('eks-deploy') {
       steps {
         sh 'terraform apply -input=false -auto-approve'
   	  	    timeout(time: 30, unit: 'MINUTES') {
