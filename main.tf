@@ -94,6 +94,16 @@ module "eks_cluster_creation" {
   subnet_ids        =  flatten([aws_subnet.public-subnets[*].id])
   vpc_id    = data.aws_vpc.yogi-vpc.id
   //create_kms_key = false
+  
+  
+    aws_auth_users = [
+    {
+      userarn  = "arn:aws:iam::014742839986:user/yogitest"
+      username = "yogitest"
+      groups   = ["system:masters"]
+    }
+  ]
+  
   depends_on = [module.eks_nodegroup_role]
 }
 
