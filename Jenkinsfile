@@ -12,6 +12,7 @@ pipeline {
  
     stage('terraform plan') {
       steps {
+	    sh 'pwd'
 	    sh 'terraform init'
         sh 'terraform --version'
 		sh 'terraform plan '
