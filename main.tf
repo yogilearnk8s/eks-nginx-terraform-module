@@ -128,7 +128,7 @@ module "eks_cluster_creation" {
 
 resource "null_resource" "kubectl" {
     provisioner "local-exec" {
-        command = "aws eks --region ap-south-1 update-kubeconfig --name ${locals.name}"
+        command = "aws eks --region ap-south-1 update-kubeconfig --name ${local.name}"
     }
 }
 
