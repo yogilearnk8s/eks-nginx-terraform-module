@@ -37,9 +37,9 @@ filter {
 }
 }
 
-data "aws_iam_role" "example" {
-  name = "sandboxcluster-eks-iam-role"
-}
+//data "aws_iam_role" "example" {
+//  name = "sandboxcluster-eks-iam-role"
+//}
 
 
 data "aws_availability_zones" "yogi-az" {
