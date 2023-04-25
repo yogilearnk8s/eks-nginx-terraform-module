@@ -125,6 +125,13 @@ module "eks_cluster_creation" {
   depends_on = [module.eks_nodegroup_role]
 }
 
+
+resource "null_resource" "kubectl" {
+    provisioner "local-exec" {
+        command = "aws eks --region ap-south-1 update-kubeconfig --name ${locals.name}"
+    }
+}
+
 resource "kubernetes_config_map" "example" {
   metadata {
     name = "example-auth"
