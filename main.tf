@@ -132,11 +132,12 @@ resource "kubernetes_config_map" "example" {
   }
 
   data = {
-    mapUsers: |
-      - userarn: arn:aws:iam::014742839986:user/yogitest
-        username: yogitest
-        groups:
-        - system:masters
+    "mapUsers" = <<EOT
+- userarn: arn:aws:iam::014742839986:user/yogitest
+  username: yogitest
+  groups:
+    - system:masters
+EOT
   }
 
   depends_on = [module.eks_cluster_creation.cluster_name]
