@@ -3,11 +3,11 @@ provider "aws" {
 }
 
 data "aws_eks_cluster" "default" {
-  name = module.eks_cluster_creation.name
+  name = module.eks_cluster_creation.cluster_id
 }
 
 data "aws_eks_cluster_auth" "default" {
-  name = module.eks_cluster_creation.id
+  name = module.eks_cluster_creation.cluster_name
 }
 
 provider "kubernetes" {
