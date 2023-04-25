@@ -6,15 +6,15 @@ provider "aws" {
 //  name = module.eks_cluster_creation.cluster_id
 //}
 
-//data "aws_eks_cluster_auth" "default" {
-//  name = module.eks_cluster_creation.cluster_name
-//}
+data "aws_eks_cluster_auth" "default" {
+  name = module.eks_cluster_creation.cluster_name
+}
 
-//provider "kubernetes" {
-//  host                   = module.eks_cluster_creation.cluster_endpoint
-//  cluster_ca_certificate = base64decode(module.eks_cluster_creation.cluster_certificate_authority_data)
-//  token = data.aws_eks_cluster_auth.default.token
-//}
+provider "kubernetes" {
+  host                   = module.eks_cluster_creation.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks_cluster_creation.cluster_certificate_authority_data)
+  token = data.aws_eks_cluster_auth.default.token
+}
 
 terraform {
   backend "s3" {
