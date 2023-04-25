@@ -2,6 +2,14 @@ provider "aws" {
   region     = "ap-south-1"
 }
 
+data "aws_eks_cluster" "default" {
+  name = module.eks_cluster_creation.cluster_id
+}
+
+data "aws_eks_cluster_auth" "default" {
+  name = module.eks_cluster_creation.cluster_id
+}
+
 provider "kubernetes" {
   host                   = module.eks_cluster_creation.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks_cluster_creation.cluster_certificate_authority_data)
@@ -16,9 +24,7 @@ terraform {
   }
 }
 
-data "aws_eks_cluster_auth" "default" {
-  name = module.eks_cluster_creation.cluster_id
-}
+
 
 
 locals {
