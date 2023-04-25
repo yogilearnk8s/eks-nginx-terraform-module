@@ -2,6 +2,11 @@ provider "aws" {
   region     = "ap-south-1"
 }
 
+provider "kubernetes" {
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+
+}
 
 terraform {
   backend "s3" {
@@ -102,6 +107,10 @@ module "eks_cluster_creation" {
       username = "yogitest"
       groups   = ["system:masters"]
     }
+  ]
+  
+    aws_auth_accounts = [
+    "014742839986"
   ]
   
   depends_on = [module.eks_nodegroup_role]
