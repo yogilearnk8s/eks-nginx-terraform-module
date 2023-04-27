@@ -109,7 +109,7 @@ module "eks_cluster_creation" {
   vpc_id    = data.aws_vpc.yogi-vpc.id
   //create_kms_key = false
   
-    manage_aws_auth_configmap = true
+  //  manage_aws_auth_configmap = true
     aws_auth_users = [
     {
       userarn  = "arn:aws:iam::014742839986:user/yogitest"
