@@ -130,7 +130,10 @@ resource "null_resource" "kubectl" {
     provisioner "local-exec" {
         command = "aws eks --region ap-south-1 update-kubeconfig --name ${local.name}"
     }
+	depends_on = [module.eks_cluster_creation]
 }
+
+
 
 resource "kubernetes_config_map" "example" {
   metadata {
@@ -147,7 +150,7 @@ resource "kubernetes_config_map" "example" {
 EOT
   }
 
-  depends_on = [module.eks_cluster_creation.cluster_name]
+  depends_on = [null_resource.kubectl]
 }
 
 
