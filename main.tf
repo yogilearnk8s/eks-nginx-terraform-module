@@ -142,12 +142,13 @@ resource "kubernetes_config_map" "example" {
   }
 
   data = {
-    "mapUsers" = <<EOT
-- userarn: arn:aws:iam::014742839986:user/yogitest
-  username: yogitest
+     mapRoles = <<ROLES
+- rolearn: ${module.eks_nodegroup_role.eks_role}
+  username: system:node:{{EC2PrivateDNSName}}
   groups:
-    - system:masters
-EOT
+    - system:bootstrappers
+    - system:nodes
+ROLES
   }
 
   depends_on = [null_resource.kubectl]
