@@ -13,6 +13,8 @@ pipeline {
     stage('terraform plan') {
       steps {
 	    sh 'pwd'
+		sh 'export TF_LOG=”TRACE”'
+		sh 'export TF_LOG_PATH="/home/ubuntu/terraform-log.log'
 	    sh 'terraform init'
         sh 'terraform --version'
 		sh 'terraform plan '
