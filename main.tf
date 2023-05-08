@@ -108,7 +108,7 @@ module "eks_cluster_creation" {
   subnet_ids        =  flatten([aws_subnet.public-subnets[*].id])
   vpc_id    = data.aws_vpc.yogi-vpc.id
   //create_kms_key = false
-  
+   create_aws_auth_configmap = true
     manage_aws_auth_configmap = true
     aws_auth_users = [
     {
