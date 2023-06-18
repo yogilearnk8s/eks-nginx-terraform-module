@@ -10,7 +10,7 @@ filter {
 //data "aws_subnet" "public-subnets" {
 //  count = "${length(var.public-subnet-cidr)}"
 // vpc_id = data.aws_vpc.yogi-vpc.id
-
+//
 //  filter {
 //    name   = "tag:Name"
 //    values = ["public-subnet-*"] 
@@ -21,7 +21,7 @@ data aws_subnets "public-subnets" {
  //vpc_id = data.aws_vpc.yogi-vpc.id
 
   filter {
-    name   = "tag:Name"
+    name   = "vpc-id"
     values = [data.aws_vpc.yogi-vpc.id] 
   }
   tags {
