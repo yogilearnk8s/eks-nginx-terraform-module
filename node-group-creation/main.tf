@@ -24,7 +24,7 @@ data aws_subnets "public-subnets" {
     name   = "vpc-id"
     values = [data.aws_vpc.yogi-vpc.id] 
   }
-  tags {
+  tags = {
   Name = "public-subnet-*"
   }
 
