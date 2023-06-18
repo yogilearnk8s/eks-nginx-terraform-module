@@ -22,7 +22,10 @@ data aws_subnets "public-subnets" {
 
   filter {
     name   = "tag:Name"
-    values = ["public-subnet-*"] 
+    values = [data.aws_vpc.yogi-vpc.id] 
+  }
+  tags {
+  Name = "public-subnet-*"
   }
 
 }
