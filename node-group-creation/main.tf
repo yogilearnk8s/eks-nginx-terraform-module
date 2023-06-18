@@ -32,7 +32,7 @@ resource "aws_eks_node_group" "worker-node-group" {
   node_role_arn  = data.aws_iam_role.example.arn
   //subnet_ids = "${element(data.aws_subnet.public-subnets.*.id, count.index)}"
   //subnet_ids =  data.aws_subnet.public-subnets[*].id
-  subnet_ids = flatten([aws_subnet.public-subnets[*].id])
+  subnet_ids = flatten([data.aws_subnet.public-subnets[*].id])
   instance_types = ["t2.medium"]
  
   scaling_config {
