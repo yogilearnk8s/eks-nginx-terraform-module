@@ -18,7 +18,7 @@ filter {
 //}
 
 data aws_subnets "public-subnets" {
- vpc_id = data.aws_vpc.yogi-vpc.id
+ //vpc_id = data.aws_vpc.yogi-vpc.id
 
   filter {
     name   = "tag:Name"
