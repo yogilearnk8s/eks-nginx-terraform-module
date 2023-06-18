@@ -30,7 +30,7 @@ resource "aws_eks_node_group" "worker-node-group" {
   cluster_name  = data.aws_eks_cluster.eks_creation.name
   node_group_name = "sandbox-workernodes"
   node_role_arn  = data.aws_iam_role.example.arn
-  subnet_ids = "${element(data.aws_subnet_ids.public-subnets.*.id, count.index)}"
+  subnet_ids = "${element(data.aws_subnet.public-subnets.*.id, count.index)}"
   //subnet_ids =  data.aws_subnet.public-subnets[*].id
   instance_types = ["t2.medium"]
  
