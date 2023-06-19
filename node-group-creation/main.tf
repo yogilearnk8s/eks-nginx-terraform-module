@@ -21,11 +21,8 @@ data aws_subnets "public-subnets" {
  //vpc_id = data.aws_vpc.yogi-vpc.id
 
   filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.yogi-vpc.id] 
-  }
-  tags = {
-  Name = "public-subnet-*"
+    name   = "tag:Name"
+    values = ["Public-k8s-subnet"] 
   }
 
 }
