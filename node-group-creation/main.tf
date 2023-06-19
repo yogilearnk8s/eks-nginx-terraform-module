@@ -20,11 +20,13 @@ filter {
 data aws_subnets "public-subnets" {
  //vpc_id = data.aws_vpc.yogi-vpc.id
 
-  filter {
-    name   = "tag:Name"
-    values = ["Public-k8s-subnet"] 
+  //filter {
+  //  name   = "tag:Name"
+  //  values = ["Public-k8s-*"] 
+  //}
+  tags = {
+   Name = "Public-k8s-subnet"
   }
-
 }
 
 data "aws_iam_role" "example" {
@@ -42,8 +44,8 @@ resource "aws_eks_node_group" "worker-node-group" {
   node_role_arn  = data.aws_iam_role.example.arn
   //subnet_ids = "${element(data.aws_subnet.public-subnets.*.id, count.index)}"
   //subnet_ids =  data.aws_subnet.public-subnets[*].id
-  //subnet_ids = flatten([data.aws_subnets.public-subnets[*].id])
-  subnet_ids = ["subnet-06fa0847fb0ac8845","subnet-0ae53cf68d4b875f4"]
+  subnet_ids = flatten([data.aws_subnets.public-subnets[*].id])
+  //subnet_ids = ["subnet-06fa0847fb0ac8845","subnet-0ae53cf68d4b875f4"]
   instance_types = ["t2.medium"]
  
   scaling_config {
