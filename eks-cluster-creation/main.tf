@@ -6,6 +6,15 @@ filter {
 }
 }
 
+data "aws_internet_gateway" "yogi-internet-gateway-id"{
+
+filter {
+ name = "tag:Name"
+ values = ["internet-gateway-yogi-devops"]
+
+}
+}
+
 resource "aws_security_group" "example_sg" {
   # ... other configuration ...
  vpc_id            = data.aws_vpc.yogi-vpc.id
@@ -37,6 +46,10 @@ resource "aws_subnet" "public-subnets" {
 
 data "aws_route_table" "publicrt" {
    vpc_id            = data.aws_vpc.yogi-vpc.id
+     route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = data.aws_internet_gateway.yogi-internet-gateway-id.id
+  }
   filter {
    name = "tag:Name"
    values = ["public-route-table"]
