@@ -52,7 +52,7 @@ resource "aws_eks_node_group" "worker-node-group" {
   cluster_name  = data.aws_eks_cluster.eks_creation.name
   node_group_name = "sandbox-workernodes"
   node_role_arn  = data.aws_iam_role.example.arn
-  subnet_ids = "${element(data.aws_subnet.public-subnets.*.id, count.index)}"
+  subnet_ids = "${toset(element(data.aws_subnet.public-subnets.*.id, count.index))}"
   //subnet_ids =  data.aws_subnet.public-subnets[*].id
   //subnet_ids = flatten([data.aws_subnets.public-subnets[*].id])
   //subnet_ids = ["subnet-06fa0847fb0ac8845","subnet-0ae53cf68d4b875f4"]
