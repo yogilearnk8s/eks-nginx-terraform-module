@@ -111,5 +111,5 @@ count = "${length(var.public-subnet-cidr)}"
  //depends_on = [
  // data.aws_iam_role.example
  //]
-z}
+}
 
