@@ -24,6 +24,10 @@ data aws_subnets "public-subnets" {
   //  name   = "tag:Name"
   //  values = ["Public-k8s-*"] 
   //}
+  filter {
+   name   = "vpc-id"
+   values = [data.aws_vpc.yogi-vpc.id]
+  }
   tags = {
    Name = "Public-k8s-subnet"
   }
@@ -37,14 +41,20 @@ data "aws_eks_cluster" "eks_creation" {
   name = var.eks-cluster-name1 
 }
 
+data "aws_subnet" "public-subnets" {
+//count = "${length(data.aws_subnet_ids.public-subnets.ids)}"
+count = "${length(var.public-subnet-cidr)}"
+id = "${tolist(data.aws_subnets.public-subnets.ids)[count.index]}"
+}
+
 resource "aws_eks_node_group" "worker-node-group" {
  count = "${length(var.public-subnet-cidr)}"
   cluster_name  = data.aws_eks_cluster.eks_creation.name
   node_group_name = "sandbox-workernodes"
   node_role_arn  = data.aws_iam_role.example.arn
-  //subnet_ids = "${element(data.aws_subnet.public-subnets.*.id, count.index)}"
+  subnet_ids = "${element(data.aws_subnet.public-subnets.*.id, count.index)}"
   //subnet_ids =  data.aws_subnet.public-subnets[*].id
-  subnet_ids = flatten([data.aws_subnets.public-subnets[*].id])
+  //subnet_ids = flatten([data.aws_subnets.public-subnets[*].id])
   //subnet_ids = ["subnet-06fa0847fb0ac8845","subnet-0ae53cf68d4b875f4"]
   instance_types = ["t2.medium"]
  
