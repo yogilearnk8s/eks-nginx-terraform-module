@@ -6,5 +6,5 @@ variable "public-subnet-cidr" {
 
 variable "eks-cluster-name1" {
 description = "EKS cluster name"
-default = "Sandbox-Cluster-Test"
+default = "Sandbox-EKSCluster-Test"
 }
