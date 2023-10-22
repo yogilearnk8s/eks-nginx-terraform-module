@@ -4,31 +4,62 @@ resource "kubernetes_namespace" "wp_namespace" {
   }
 }
 
-resource "kubernetes_secret" "prometheus" {
+resource "kubernetes_secret" "wordpress_app_secret" {
     metadata {
-        name      = "prometheus"
-        namespace = "monitoring"
+        name      = "appsecret"
+        namespace = "wp_namespace"
     }
 
     data = {
-        password     = data.vault_generic_secret.prometheus.data["password"]
-        bearer_token = data.vault_generic_secret.prometheus.data["bearer_token"]
+        secret_key     = "appsecretvalue"
     }
-    type = "Opaque"
+    
 }
+
+
+resource "kubernetes_config_map" "env_values" {
+  metadata {
+    name = "example-env-values"
+  }
+
+  data = {
+    WORDPRESS_DB_HOST = "WORDPRESS_DB_HOST",
+    wordpress-mysql = "wordpress-mysql",
+    WORDPRESS_DB_USER = "WORDPRESS_DB_USER",
+    wordpress = "wordpress"
+  }
+}
+
+
+resource "kubernetes_secret" "wordpress_db_secret" {
+    metadata {
+        name      = "WORDPRESS_DB_PASSWORD"
+        namespace = "wp_namespace"
+    }
+
+    data = {
+        WORDPRESS_DB_PASSWORD     = "dbsecretvalue"
+    }
+    
+}
+
 
 resource "kubernetes_persistent_volume" "wp_persistent_volume" {
   metadata {
     name = "wp-pv-claim"
-    labels {
-      app = "wordpress_app"
-    }
+ 
   }
   spec {
     capacity = {
       storage = "20Gi"
     }
     access_modes = ["ReadWriteOnce"]
+        persistent_volume_source {
+        csi {
+          driver = "ebs.csi.aws.com"
+          volume_handle = "awsElasticBlockStore"
+        }
+    }
 
   }
 }
@@ -72,8 +103,8 @@ resource "kubernetes_deployment" "wordpress_app" {
            name = "WORDPRESS_DB_PASSWORD"
            value_from {
               secret_key_ref {
-                name = "mysql-pass"
-                key = "password"
+                name = kubernetes_secret.wordpress_db_secret.metadata[0].name
+                key = "WORDPRESS_DB_PASSWORD"
               } 
            }
             }

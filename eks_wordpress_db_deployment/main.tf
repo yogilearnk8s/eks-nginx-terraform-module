@@ -17,18 +17,48 @@ resource "kubernetes_secret" "wp_secret" {
   type = "kubernetes.io/basic-auth"
 }
 
+
+resource "kubernetes_config_map" "env_values" {
+  metadata {
+    name = "example-env-values"
+  }
+
+  data = {
+    WORDPRESS_DB_HOST = "WORDPRESS_DB_HOST",
+    wordpress-mysql = "wordpress-mysql",
+    WORDPRESS_DB_USER = "WORDPRESS_DB_USER",
+    wordpress = "wordpress"
+  }
+}
+
+resource "kubernetes_secret" "wordpress_db_secret" {
+    metadata {
+        name      = "WORDPRESS_DB_PASSWORD"
+        namespace = "wp_namespace"
+    }
+
+    data = {
+        WORDPRESS_DB_PASSWORD     = "dbsecretvalue"
+    }
+    
+}
+
 resource "kubernetes_persistent_volume" "wp_db_persistent_volume" {
   metadata {
     name = "mysql-pv-claim"
-    labels {
-      app = "wordpress_db"
-    }
+
   }
   spec {
     capacity = {
       storage = "20Gi"
     }
     access_modes = ["ReadWriteOnce"]
+    persistent_volume_source {
+        csi {
+          driver = "ebs.csi.aws.com"
+          volume_handle = "awsElasticBlockStore"
+        }
+    }
 
   }
 }
@@ -65,33 +95,24 @@ resource "kubernetes_deployment" "wordpress_db" {
             name = "mysql"
           }
           env {
-           name = "MYSQL_DATABASE"
-           value = "wordpress"
+           name = "WORDPRESS_DB_HOST"
+           value = "wordpress-mysql"
             }
            env {
-           name = "MYSQL_ROOT_PASSWORD"
+           name = "WORDPRESS_DB_PASSWORD"
            value_from {
               secret_key_ref {
-                name = "mysql-pass"
-                key = "password"
+                name = kubernetes_secret.wordpress_db_secret.metadata[0].name
+                key = "WORDPRESS_DB_PASSWORD"
               } 
            }
             }
 
            env {
-           name = "MYSQL_PASSWORD"
-           value_from {
-              secret_key_ref {
-                name = "mysql-pass"
-                key = "password"
-              } 
-           }
-            }
-
-            env {
-              name = "MYSQL_USER"
+               name = "WORDPRESS_DB_USER"
               value = "wordpress"
             }
+
           volume_mount {
             name = "wordpress-persistent-storage"
             mount_path =  "/var/lib/mysql"
