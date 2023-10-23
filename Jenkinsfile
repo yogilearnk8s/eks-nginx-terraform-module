@@ -17,13 +17,13 @@ pipeline {
 		sh 'export TF_LOG_PATH="/home/ubuntu/terraform-log.log"'
 	    sh 'terraform init'
         sh 'terraform --version'
-		sh 'TF_LOG=debug terraform plan '
+		sh 'terraform plan '
       }
     }
 
     stage('eks-deploy') {
       steps {
-        sh 'TF_LOG=debug terraform apply  -input=false -auto-approve'
+        sh 'terraform apply  -input=false -auto-approve'
   	  	    timeout(time: 30, unit: 'MINUTES') {
                     
                 } 
