@@ -1,6 +1,6 @@
 data "kubernetes_namespace" "wp_namespace" {
   metadata {
-    name = "wp_namespace"
+    name = "wp-namespace"
   }
 }
 
