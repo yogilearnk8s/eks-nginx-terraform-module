@@ -24,17 +24,17 @@ resource "kubernetes_config_map" "env_values" {
   }
 
   data = {
-    WORDPRESS_DB_HOST = "WORDPRESS_DB_HOST",
+    WORDPRESS_DB_HOST = "wordpress-db-host",
     wordpress-mysql = "wordpress-mysql",
-    WORDPRESS_DB_USER = "WORDPRESS_DB_USER",
+    WORDPRESS_DB_USER = "wordpress-db-user",
     wordpress = "wordpress"
   }
 }
 
 resource "kubernetes_secret" "wordpress_db_secret" {
     metadata {
-        name      = "WORDPRESS_DB_PASSWORD"
-        namespace = "wp_namespace"
+        name      = "wordpress-db-password"
+        namespace = "wp-namespace"
     }
 
     data = {
@@ -65,7 +65,7 @@ resource "kubernetes_persistent_volume" "wp_db_persistent_volume" {
 
 resource "kubernetes_deployment" "wordpress_db" {
   metadata {
-    name      = "wp_namespace"
+    name      = "wp-db-deployment"
     namespace = data.kubernetes_namespace.wp_namespace.metadata.0.name
   }
   spec {
@@ -95,21 +95,21 @@ resource "kubernetes_deployment" "wordpress_db" {
             name = "mysql"
           }
           env {
-           name = "WORDPRESS_DB_HOST"
+           name = "wordpress-db-host"
            value = "wordpress-mysql"
             }
            env {
-           name = "WORDPRESS_DB_PASSWORD"
+           name = "wordpress-db-password"
            value_from {
               secret_key_ref {
                 name = kubernetes_secret.wordpress_db_secret.metadata[0].name
-                key = "WORDPRESS_DB_PASSWORD"
+                key = "wordpress-db-password"
               } 
            }
             }
 
            env {
-               name = "WORDPRESS_DB_USER"
+               name = "wordpress-db-user"
               value = "wordpress"
             }
 
@@ -128,24 +128,6 @@ resource "kubernetes_deployment" "wordpress_db" {
 
 
       }
-    }
-  }
-}
-
-resource "kubernetes_service" "wp_app_service" {
-  metadata {
-    name      = "wp_wordpress"
-    namespace = kubernetes_namespace.wp_namespace.metadata.0.name
-  }
-  spec {
-    selector = {
-      app = kubernetes_deployment.wordpress_app.spec.0.template.0.metadata.0.labels.app
-      tier = kubernetes_deployment.wordpress_app.spec.0.template.0.metadata.0.labels.tier
-    }
-    type = "LoadBalancer"
-    port {
-      port        = 80
-      target_port = 80
     }
   }
 }
