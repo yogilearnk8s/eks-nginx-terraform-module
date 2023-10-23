@@ -77,9 +77,7 @@ resource "kubernetes_deployment" "wordpress_app" {
         tier = "frontend"
       }
     }
-    strategy {
-      type = Recreate
-    }
+
     template {
       metadata {
         labels = {
