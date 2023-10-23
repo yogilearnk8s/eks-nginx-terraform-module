@@ -80,7 +80,7 @@ resource "kubernetes_deployment" "wordpress_db" {
     template {
       metadata {
         labels = {
-          app = "wordpress_db"
+          app = "wordpress-db"
           tier = "backend"
         }
       }

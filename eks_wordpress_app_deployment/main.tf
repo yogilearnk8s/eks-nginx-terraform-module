@@ -91,7 +91,7 @@ resource "kubernetes_deployment" "wordpress_app" {
           name  = "wordpress"
           port {
             container_port = 80
-            name = "wordpress_app"
+            name = "wordpress-app"
           }
           env {
            name = "wordpress-db-host"
