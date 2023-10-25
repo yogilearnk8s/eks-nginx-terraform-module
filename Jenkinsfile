@@ -14,7 +14,10 @@ pipeline {
       steps {
 	    sh 'pwd'
       sh 'terraform state list'
-      sh 'terraform state rm module.eks.kubernetes_config_map.aws_auth'
+      sh 'terraform state rm module.eks_cluster_creation'
+      sh 'terraform state rm module.eks_nodegroup_role'
+      sh 'terraform state rm module.nodegroup_creation'
+      sh 'terraform state rm module.app_deployment'
 //		sh 'export TF_LOG="DEBUG"'
 	//	sh 'export TF_LOG_PATH="/home/ubuntu/terraform-log.log"'
 	//    sh 'terraform init'
