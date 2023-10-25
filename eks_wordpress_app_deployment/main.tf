@@ -19,7 +19,7 @@ resource "kubernetes_secret" "wordpress_app_secret" {
 
 resource "kubernetes_config_map" "env_values" {
   metadata {
-    name = "example-env-values"
+    name = "app-env-values"
   }
 
   data = {

@@ -20,7 +20,7 @@ resource "kubernetes_secret" "wp_secret" {
 
 resource "kubernetes_config_map" "env_values" {
   metadata {
-    name = "example-env-values"
+    name = "db-env-values"
   }
 
   data = {
