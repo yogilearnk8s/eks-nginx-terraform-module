@@ -1,3 +1,15 @@
+resource "aws_launch_template" "test" {
+  name          = "test"
+  instance_type = t2.medium
+  image_id      = ami-07f0f3deaa0c4dffa
+  update_default_version = false  
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+
 data "aws_vpc" "yogi-vpc"{
 
 filter {
@@ -5,6 +17,7 @@ filter {
  values = ["Yogi-VPC-DevOps"]
 }
 }
+
 
 
 //data "aws_subnet" "public-subnets" {
@@ -57,7 +70,10 @@ resource "aws_eks_node_group" "worker-node-group" {
   subnet_ids = flatten([data.aws_subnet.public-subnets[*].id])
   //subnet_ids = ["subnet-06fa0847fb0ac8845","subnet-0ae53cf68d4b875f4"]
   instance_types = ["t2.medium"]
- 
+  launch_template {
+    name    = aws_launch_template.test.name
+    version = aws_launch_template.test.latest_version
+  }
   scaling_config {
    desired_size = 2
    max_size   = 2
