@@ -1,6 +1,6 @@
 resource "aws_launch_template" "test" {
   name          = "test"
-  instance_type = "t2.medium"
+ // instance_type = "t2.medium"
   image_id      = "ami-07f0f3deaa0c4dffa"
   update_default_version = false  
 
