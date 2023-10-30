@@ -15,8 +15,8 @@ filter {
 }
 }
 
-resource "aws_security_group" "example_sg" {
-  # ... other configuration ...
+resource "aws_security_group" "eks_cluster_sg" {
+  
  vpc_id            = data.aws_vpc.yogi-vpc.id
   egress {
     from_port        = 0
@@ -25,6 +25,7 @@ resource "aws_security_group" "example_sg" {
     cidr_blocks      = ["0.0.0.0/0"]
 	}
 }
+
 
 data "aws_availability_zones" "yogi-az" {
   state = "available"
@@ -46,7 +47,7 @@ resource "aws_subnet" "public-subnets" {
 
 data "aws_route_table" "publicrt" {
    vpc_id            = data.aws_vpc.yogi-vpc.id
-     route {
+     routes {
     cidr_block = "0.0.0.0/0"
     gateway_id = data.aws_internet_gateway.yogi-internet-gateway-id.id
   }

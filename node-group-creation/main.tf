@@ -1,13 +1,3 @@
-resource "aws_launch_template" "test" {
-  name          = "test"
- // instance_type = "t2.medium"
-  image_id      = "ami-07f0f3deaa0c4dffa"
-  update_default_version = false  
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
 
 
 data "aws_vpc" "yogi-vpc"{
@@ -59,6 +49,32 @@ data "aws_subnet" "public-subnets" {
 count = "${length(var.public-subnet-cidr)}"
 id = "${tolist(data.aws_subnets.public-subnets.ids)[count.index]}"
 }
+
+
+resource "aws_security_group" "node_group_sg" {
+  
+ vpc_id            = data.aws_vpc.yogi-vpc.id
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+	}
+}
+
+resource "aws_launch_template" "test" {
+  name          = "test"
+ // instance_type = "t2.medium"
+  image_id      = "ami-07f0f3deaa0c4dffa"
+  update_default_version = false  
+  
+  lifecycle {
+    create_before_destroy = true
+  }
+   vpc_security_group_ids = aws_security_group.node_group_sg.id
+}
+
+
 
 resource "aws_eks_node_group" "worker-node-group" {
  count = "${length(var.public-subnet-cidr)}"
