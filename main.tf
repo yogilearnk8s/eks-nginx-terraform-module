@@ -127,7 +127,23 @@ module "eks_cluster_creation" {
   vpc_id    = data.aws_vpc.yogi-vpc.id
   //create_kms_key = false
 
- 
+  cluster_addons = {
+    coredns = {
+      preserve    = true
+      most_recent = true
+
+      timeouts = {
+        create = "25m"
+        delete = "10m"
+      }
+    }
+    kube-proxy = {
+      most_recent = true
+    }
+    vpc-cni = {
+      most_recent = true
+    }
+  }
    create_aws_auth_configmap = true
    manage_aws_auth_configmap = true
     aws_auth_users = [
