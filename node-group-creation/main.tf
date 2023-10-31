@@ -73,7 +73,7 @@ resource "aws_launch_template" "test" {
  // instance_type = "t2.medium"
   image_id      = "ami-07f0f3deaa0c4dffa"
   update_default_version = false  
-  
+  key_name = "jenkins"
   lifecycle {
     create_before_destroy = true
   }
@@ -92,6 +92,7 @@ resource "aws_eks_node_group" "worker-node-group" {
   subnet_ids = flatten([data.aws_subnet.public-subnets[*].id])
   //subnet_ids = ["subnet-06fa0847fb0ac8845","subnet-0ae53cf68d4b875f4"]
   instance_types = ["t2.medium"]
+
   launch_template {
     name    = aws_launch_template.test.name
     version = aws_launch_template.test.latest_version
@@ -101,9 +102,7 @@ resource "aws_eks_node_group" "worker-node-group" {
    max_size   = 2
    min_size   = 1
   }
-  remote_access{
-    ec2_ssh_key = "jenkins"
-  }
+
  
 //  depends_on = [
   // aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
