@@ -86,6 +86,12 @@ data "aws_route_table" "publicrt" {
 resource "aws_security_group" "eks_cluster_sg" {
  name = "eks_security_group" 
  vpc_id            = data.aws_vpc.yogi-vpc.id
+   ingress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+	}
   egress {
     from_port        = 0
     to_port          = 0
