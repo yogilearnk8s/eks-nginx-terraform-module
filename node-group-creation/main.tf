@@ -93,10 +93,10 @@ resource "aws_eks_node_group" "worker-node-group" {
   //subnet_ids = ["subnet-06fa0847fb0ac8845","subnet-0ae53cf68d4b875f4"]
   instance_types = ["t2.medium"]
 
-  launch_template {
-    name    = aws_launch_template.test.name
-    version = aws_launch_template.test.latest_version
-  }
+ // launch_template {
+ //   name    = aws_launch_template.test.name
+ //   version = aws_launch_template.test.latest_version
+ // }
   scaling_config {
    desired_size = 2
    max_size   = 2
