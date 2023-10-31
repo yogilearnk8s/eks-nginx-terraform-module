@@ -7,6 +7,7 @@ data "kubernetes_namespace" "wp_namespace" {
 resource "kubernetes_secret" "wp_secret" {
   metadata {
     name = "wp-auth"
+    namespace = "wp-namespace"
   }
 
   data = {
@@ -21,6 +22,7 @@ resource "kubernetes_secret" "wp_secret" {
 resource "kubernetes_config_map" "env_values" {
   metadata {
     name = "db-env-values"
+    namespace = "wp-namespace"
   }
 
   data = {
