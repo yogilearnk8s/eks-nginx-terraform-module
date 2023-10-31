@@ -71,7 +71,7 @@ resource "aws_launch_template" "test" {
   lifecycle {
     create_before_destroy = true
   }
-   vpc_security_group_ids = aws_security_group.node_group_sg.id
+   vpc_security_group_ids = [aws_security_group.node_group_sg.id]
 }
 
 
