@@ -68,7 +68,7 @@ resource "kubernetes_persistent_volume" "wp_db_persistent_volume" {
 resource "kubernetes_deployment" "wordpress_db" {
   metadata {
     name      = "wp-db-deployment"
-    namespace = data.kubernetes_namespace.wp_namespace.metadata.0.name
+    namespace = kubernetes_namespace.wp_namespace.metadata.0.name
   }
   spec {
     replicas = 2
