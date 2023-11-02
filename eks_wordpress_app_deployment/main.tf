@@ -132,7 +132,7 @@ resource "kubernetes_deployment" "wordpress_app" {
 resource "kubernetes_service" "wp_app_service" {
   metadata {
     name      = "wp-app-service"
-    namespace = kubernetes_namespace.wp_namespace.metadata.0.name
+    namespace = data.kubernetes_namespace.wp_namespace.metadata.0.name
   }
   spec {
     selector = {
