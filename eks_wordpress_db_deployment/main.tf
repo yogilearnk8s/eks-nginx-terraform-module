@@ -48,7 +48,7 @@ resource "kubernetes_secret" "wordpress_db_secret" {
 resource "kubernetes_persistent_volume" "wp_db_persistent_volume" {
   metadata {
     name = "mysql-pv-claim"
-
+    
   }
   spec {
     capacity = {
@@ -117,7 +117,16 @@ resource "kubernetes_deployment" "wordpress_db" {
             name = "wordpress-persistent-storage"
             mount_path =  "/var/lib/mysql"
           }
-
+            resources {
+            limits = {
+              cpu    = "500m"
+              memory = "512Mi"
+            }
+            requests = {
+              cpu    = "250m"
+              memory = "50Mi"
+            }
+          }
         }
         volume{
           name = "wordpress-persistent-storage"
