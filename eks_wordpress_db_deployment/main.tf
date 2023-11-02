@@ -1,4 +1,4 @@
-data "kubernetes_namespace" "wp_namespace" {
+resource "kubernetes_namespace" "wp_namespace" {
   metadata {
     name = "wp-namespace"
   }

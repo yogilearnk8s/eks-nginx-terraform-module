@@ -1,8 +1,9 @@
-resource "kubernetes_namespace" "wp_namespace" {
+data "kubernetes_namespace" "wp_namespace" {
   metadata {
     name = "wp-namespace"
   }
 }
+
 
 resource "kubernetes_secret" "wordpress_app_secret" {
     metadata {
