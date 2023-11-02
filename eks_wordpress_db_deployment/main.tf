@@ -48,9 +48,13 @@ resource "kubernetes_secret" "wordpress_db_secret" {
 resource "kubernetes_persistent_volume" "wp_db_persistent_volume" {
   metadata {
     name = "mysql-pv-claim"
+    labels = {
+       name = "wp-db"
+    }
     
   }
   spec {
+    storage_class_name = "gp2"
     capacity = {
       storage = "20Gi"
     }
@@ -71,11 +75,17 @@ resource "kubernetes_persistent_volume_claim" "wp_db_persistent_volume_claim" {
     name = "wp-db-presistentclaim"
   }
   spec {
+    storage_class_name = "gp2"
     access_modes = ["ReadWriteMany"]
     resources {
       requests = {
         storage = "10Gi"
       }
+    }
+    selector {
+      match_labels = {
+         name = "wp-db"
+      }  
     }
     volume_name = "${kubernetes_persistent_volume.wp_db_persistent_volume.metadata.0.name}"
   }
