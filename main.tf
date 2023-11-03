@@ -28,7 +28,7 @@ terraform {
 
 
 locals {
-  name   = "Sandbox-EKSCluster6"
+  name   = "Sandbox-EKSCluster7"
   region = "ap-south-1"
 
  
@@ -185,12 +185,12 @@ depends_on = [module.eks_cluster_creation]
 //  depends_on = [module.nodegroup_creation]
 //}
 
-module "wordpress_db_deployment"{
-  source = "./eks_wordpress_db_deployment"
-  depends_on = [module.nodegroup_creation]
-}
+//module "wordpress_db_deployment"{
+//  source = "./eks_wordpress_db_deployment"
+//  depends_on = [module.nodegroup_creation]
+//}
 
-module "wordpress_app_deployment"{
-  source = "./eks_wordpress_app_deployment"
-  depends_on = [module.wordpress_db_deployment]
-}
+//module "wordpress_app_deployment"{
+//  source = "./eks_wordpress_app_deployment"
+//  depends_on = [module.wordpress_db_deployment]
+//}
