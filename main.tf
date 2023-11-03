@@ -28,7 +28,7 @@ terraform {
 
 
 locals {
-  name   = "Sandbox-EKSCluster7"
+  name   = "Sandbox-EKSCluster8"
   region = "ap-south-1"
 
  
