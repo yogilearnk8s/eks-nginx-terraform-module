@@ -180,10 +180,10 @@ source = "./node-group-creation"
 depends_on = [module.eks_cluster_creation]
 }
 
-//module "app_deployment"{
-//  source = "./eks_app_deployment"
-//  depends_on = [module.nodegroup_creation]
-//}
+module "app_deployment"{
+  source = "./eks_nginx_app_deployment"
+  depends_on = [module.nodegroup_creation]
+}
 
 //module "wordpress_db_deployment"{
 //  source = "./eks_wordpress_db_deployment"
